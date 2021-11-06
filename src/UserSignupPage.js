@@ -8,7 +8,8 @@ export class UserSignupPage extends React.Component {
         email : null,
         phone : null,
         password : null,
-        passwordRepeat : null
+        passwordRepeat : null,
+        pendingApiCall: false
     }
 
     onChange = event => {
@@ -26,35 +27,51 @@ export class UserSignupPage extends React.Component {
             phone : this.state.phone,
             password : this.state.password,
         }
-        axios.post("/api/1.0/users",user);
+        this.setState({pendingApiCall: true})
+        axios.post("/api/1.0/users",user)
+             .then(response => {
+                 this.setState({pendingApiCall: false})
+             })
+             .catch(error => {
+                this.setState({pendingApiCall: false})
+             });
     }
 
     render() {
         return (
-            <form>
-                <h1>Sign Up</h1>
-                <div>
-                    <label>Username</label>
-                    <input name="username" onChange={this.onChange}></input>
+            <div className="container">
+                <div className="card m-4">
+                    <form className="m-3">
+                        <div className="form-floating mb-3">
+                            <input name="username" className="form-control" id="usernameInput" placeholder="example" />
+                            <label for="usernameInput">Username</label>
+                        </div>
+                        <div className="form-floating mb-3">
+                            <input name="email" type="email" className="form-control" id="emailInput" placeholder="name@example.com" />
+                            <label for="emailInput">Email address</label>
+                        </div>
+                        <div className="form-floating mb-3">
+                            <input name="phone" type="phone" className="form-control" id="phoneInput" placeholder="5554443322" />
+                            <label for="phoneInput">Phone Number</label>
+                        </div>
+                        <div className="form-floating mb-3">
+                            <input name="password" type="password" className="form-control" id="passwordInput" placeholder="example"/>
+                            <label for="passwordInput">Password</label>
+                        </div>
+                        <div className="form-floating mb-3">
+                            <input name="passwordRepeat" type="password" className="form-control" id="passwordRepeatInput" placeholder="example" />
+                            <label for="passwordRepeatInput">Password repeat</label>
+                        </div>
+                        <div className="text-center">
+                            <button type="button" 
+                                    className="btn btn-primary" 
+                                    onClick={this.onClickSignup}
+                                    disabled={this.state.pendingApiCall}>
+                                         {this.state.pendingApiCall && <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>} Sign Up</button>
+                        </div>
+                    </form>
                 </div>
-                <div>
-                    <label>Email</label>
-                    <input name="email" onChange={this.onChange}></input>
-                </div>
-                <div>
-                    <label>Phone</label>
-                    <input name="phone" onChange={this.onChange}></input>
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input name="password" type="password" onChange={this.onChange}></input>
-                </div>
-                <div>
-                    <label>passwordRepeat</label>
-                    <input name="passwordRepeat" type="password" onChange={this.onChange}></input>
-                </div>
-                <button onClick={this.onClickSignup}>Sign Up</button>
-            </form>
+            </div>
         );
     }
 }
