@@ -1,7 +1,9 @@
 import React from 'react'
 import {signup} from '../api/userApiCalls'
+import Input from '../components/Input'
+import { withTranslation } from 'react-i18next';
 
-export class UserSignupPage extends React.Component {
+class UserSignupPage extends React.Component {
 
     state = {
         username : null,
@@ -9,68 +11,69 @@ export class UserSignupPage extends React.Component {
         phone : null,
         password : null,
         passwordRepeat : null,
-        pendingApiCall: false
-    }
+        pendingApiCall: false,
+        validationErrors: {}
+    };
 
     onChange = event => {
         const {name, value } = event.target;
+        const validationErrors = {...this.state.validationErrors};
+        validationErrors[name] = undefined;
         this.setState({
-            [name] : value
-        })
-    }
+            [name] : value,
+            validationErrors
+        });
+    };
 
     onClickSignup = async event => {
-        event.preventDefault();
-        const user = {
-            username : this.state.username,
-            email : this.state.email,
-            phone : this.state.phone,
-            password : this.state.password,
+        if(this.state.password !== this.state.passwordRepeat || this.state.password == null || this.state.passwordRepeat == null) {
+            const { t } = this.props;
+            const validationErrors = { ...this.state.validationErrors };
+            validationErrors['passwordRepeat'] = t("password missmatch");
+            this.setState({validationErrors});  
+        } else {
+            event.preventDefault();
+            const user = {
+                username : this.state.username,
+                email : this.state.email,
+                phone : this.state.phone,
+                password : this.state.password,
+            }
+            this.setState({pendingApiCall: true});
+            try {
+                await signup(user);
+            } catch(error) {
+                if(error.response.data.validationErrors) {
+                    this.setState({
+                        validationErrors : error.response.data.validationErrors
+                    });
+                }
+            }
+            this.setState({pendingApiCall: false});
         }
-        this.setState({pendingApiCall: true})
-        try {
-            await signup(user);
-        } catch(error) {
-            
-        }
-        this.setState({pendingApiCall: false})
+        
     }
 
     render() {
+        const { t } = this.props;
         return (
-            <div className="container-fluid content-row p-4">
+            <div className="container-md content-row p-4">
                 <div class="row">
                     <div class="col-sm-12 col-lg-6 offset-lg-3">
                         <div className="card h-100 p-4">
-                            <h1>Sign up for free</h1>
+                            <h1>{t("Sign Up")}</h1>
                             <form className="m-3">
-                                <div className="form-floating mb-3">
-                                    <input name="username" className="form-control" id="usernameInput" placeholder="example" onChange={this.onChange} required/>
-                                    <label for="usernameInput">Username</label>
-                                    <div class="valid-tooltip">Looks good!</div>
-                                </div>
-                                <div className="form-floating mb-3">
-                                    <input name="email" type="email" className="form-control" id="emailInput" placeholder="name@example.com" onChange={this.onChange} />
-                                    <label for="emailInput">Email address</label>
-                                </div>
-                                <div className="form-floating mb-3">
-                                    <input name="phone" type="phone" className="form-control" id="phoneInput" placeholder="5554443322" onChange={this.onChange} />
-                                    <label for="phoneInput">Phone Number</label>
-                                </div>
-                                <div className="form-floating mb-3">
-                                    <input name="password" type="password" className="form-control" id="passwordInput" placeholder="example" onChange={this.onChange} />
-                                    <label for="passwordInput">Password</label>
-                                </div>
-                                <div className="form-floating mb-3">
-                                    <input name="passwordRepeat" type="password" className="form-control" id="passwordRepeatInput" placeholder="example" onChange={this.onChange} />
-                                    <label for="passwordRepeatInput">Password repeat</label>
-                                </div>
+                                <Input id="usernameInput" name="username" label={t("Username")} error={this.state.validationErrors.username} onChange={this.onChange} />
+                                <Input id="emailInput" name="email" label={t("Email address")} error={this.state.validationErrors.email} onChange={this.onChange} />
+                                <Input id="phoneInput" name="phone" label={t("Phone number")} error={this.state.validationErrors.phone} onChange={this.onChange} />
+                                <Input id="passwordInput" name="password" label={t("Password")} type="password" error={this.state.validationErrors.password} onChange={this.onChange} />
+                                <Input id="passwordRepeatInput" name="passwordRepeat" label={t("Password repeat")} type="password" error={this.state.validationErrors.passwordRepeat} onChange={this.onChange} />
                                 <div className="text-center">
                                     <button type="button" 
-                                            className="btn btn-primary w-100" 
+                                            className="btn btn-success w-100" 
                                             onClick={this.onClickSignup}
                                             disabled={this.state.pendingApiCall}>
-                                                {this.state.pendingApiCall && <span className="spinner-border spinner-border-sm"></span>} Sign Up</button>
+                                                {this.state.pendingApiCall && <span className="spinner-border spinner-border-sm"></span>} {t("Sign Up")}</button>
                                 </div>
                             </form>
                         </div>
@@ -80,3 +83,6 @@ export class UserSignupPage extends React.Component {
         );
     }
 }
+
+const UserSignupPageWithTranslation = withTranslation()(UserSignupPage);
+export default UserSignupPageWithTranslation;

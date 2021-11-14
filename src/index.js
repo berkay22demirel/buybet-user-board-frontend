@@ -3,12 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import './bootstrap-override.scss';
 import App from './App';
-import { UserSignupPage }  from './pages/UserSignupPage';
+import UserSignupPage from './pages/UserSignupPage';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import reportWebVitals from './reportWebVitals';
+import './i18n';
 
 ReactDOM.render(
   <React.StrictMode>
+    <Navbar />
     <UserSignupPage />
+    <Footer />
   </React.StrictMode>,
   document.getElementById('root')
 );
