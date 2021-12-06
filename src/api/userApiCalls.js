@@ -1,6 +1,10 @@
 import axios from "axios";
 
-export const signup = (user) => {
+export const signIn = (login) => {
+  return axios.post("/api/1.0/auth", {}, { auth: login });
+};
+
+export const signUp = (user) => {
   return axios.post("/api/1.0/users", user);
 };
 
