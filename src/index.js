@@ -12,7 +12,7 @@ import "./i18n";
 ReactDOM.render(
   <React.StrictMode>
     <Navbar />
-    <UserSignInPage />
+    <UserSignUpPage />
     <Footer />
   </React.StrictMode>,
   document.getElementById("root")
