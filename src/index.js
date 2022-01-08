@@ -2,21 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import "./bootstrap-override.scss";
-import UserSignUpPage from "./pages/UserSignUpPage";
-import UserSignInPage from "./pages/UserSignInPage";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import reportWebVitals from "./reportWebVitals";
 import "./i18n";
+import App from "./App";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Navbar />
-    <UserSignUpPage />
-    <Footer />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+ReactDOM.render(<App />, document.getElementById("root"));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

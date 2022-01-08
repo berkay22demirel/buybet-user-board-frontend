@@ -11,12 +11,12 @@ export function withApiProgress(WrappedComponent, apiPath) {
     };
 
     componentDidMount() {
-      axios.interceptors.request.use((request) => {
+      this.requestInterceptorId = axios.interceptors.request.use((request) => {
         this.updatePendingApiCall(request.url, true);
         return request;
       });
 
-      axios.interceptors.response.use(
+      this.responseInterceptorId = axios.interceptors.response.use(
         (response) => {
           this.updatePendingApiCall(response.config.url, false);
           return response;
@@ -26,6 +26,11 @@ export function withApiProgress(WrappedComponent, apiPath) {
           throw error;
         }
       );
+    }
+
+    componentWillUnmount() {
+      axios.interceptors.request.eject(this.requestInterceptorId);
+      axios.interceptors.response.eject(this.responseInterceptorId);
     }
 
     updatePendingApiCall(url, inProgress) {

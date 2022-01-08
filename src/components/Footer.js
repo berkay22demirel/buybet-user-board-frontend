@@ -1,6 +1,6 @@
 import React from "react";
-import turkeyFlag from "../image/turkey-flag.jpg";
-import ukFlag from "../image/uk-flag.jpg";
+import turkeyFlag from "../assets/turkey-flag.jpg";
+import ukFlag from "../assets/uk-flag.jpg";
 import { withTranslation } from "react-i18next";
 import { changeLanguage } from "../api/userApiCalls";
 

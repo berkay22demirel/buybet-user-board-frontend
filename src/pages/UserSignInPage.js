@@ -31,6 +31,7 @@ class UserSignInPage extends Component {
     });
     try {
       await signIn(login);
+      this.props.history.push("/");
     } catch (apiError) {
       console.log(apiError);
       this.setState({
