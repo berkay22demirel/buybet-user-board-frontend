@@ -5,8 +5,17 @@ import "./bootstrap-override.scss";
 import reportWebVitals from "./reportWebVitals";
 import "./i18n";
 import App from "./App";
+import { Provider } from "react-redux";
+import configStore from "./redux/configStore";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const store = configStore();
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

@@ -4,6 +4,8 @@ import Input from "../components/Input";
 import { withTranslation } from "react-i18next";
 import Button from "../components/Button";
 import { withApiProgress } from "../components/ApiProgress";
+import { connect } from "react-redux";
+import { loginSuccess } from "../redux/authActions";
 
 class UserSignInPage extends Component {
   state = {
@@ -32,6 +34,10 @@ class UserSignInPage extends Component {
     try {
       await signIn(login);
       this.props.history.push("/");
+      const authState = {
+        ...login,
+      };
+      this.props.onLoginSuccess(authState);
     } catch (apiError) {
       console.log(apiError);
       this.setState({
@@ -85,4 +91,14 @@ const UserSignInPageWithApiProgress = withApiProgress(
   UserSignInPage,
   "/api/1.0/auth"
 );
-export default withTranslation()(UserSignInPageWithApiProgress);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLoginSuccess: (authState) => dispatch(loginSuccess(authState)),
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withTranslation()(UserSignInPageWithApiProgress));
