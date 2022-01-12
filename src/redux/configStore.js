@@ -1,17 +1,21 @@
-import { createStore } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import authReducer from "./authReducer";
 import { AUTH_LOCAL_STORAGE_KEY } from "./reduxConstants";
 import SecureLS from "secure-ls";
+import thunk from "redux-thunk";
 
 const secureLs = new SecureLS();
 
 const configStore = () => {
   const buybetAuth = secureLs.get(AUTH_LOCAL_STORAGE_KEY);
 
+  const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
   const store = createStore(
     authReducer,
     buybetAuth,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    composeEnhancers(applyMiddleware(thunk))
   );
 
   store.subscribe(() => {
