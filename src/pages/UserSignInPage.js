@@ -4,7 +4,7 @@ import { withTranslation } from "react-i18next";
 import Button from "../components/Button";
 import { withApiProgress } from "../components/ApiProgress";
 import { connect } from "react-redux";
-import { SignInHandler } from "../redux/authActions";
+import { signInHandler } from "../redux/authActions";
 
 class UserSignInPage extends Component {
   state = {
@@ -88,7 +88,7 @@ const UserSignInPageWithApiProgress = withApiProgress(
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: (loginParams) => dispatch(SignInHandler(loginParams)),
+    signIn: (loginParams) => dispatch(signInHandler(loginParams)),
   };
 };
 

@@ -1,5 +1,5 @@
 import * as REDUX_ACTION from "./reduxConstants";
-import { signIn } from "../api/userApiCalls";
+import { signIn, signUp } from "../api/userApiCalls";
 
 export const logoutSuccess = () => {
   return {
@@ -14,13 +14,21 @@ export const loginSuccess = (authState) => {
   };
 };
 
-export const SignInHandler = (loginParams) => {
+export const signInHandler = (loginParams) => {
   return async (dispatch) => {
     const response = await signIn(loginParams);
     const authState = {
       ...loginParams,
     };
     dispatch(loginSuccess(authState));
+    return response;
+  };
+};
+
+export const signUpHandler = (signUpParams) => {
+  return async (dispatch) => {
+    const response = await signUp(signUpParams);
+    await dispatch(signInHandler(signUpParams));
     return response;
   };
 };

@@ -1,9 +1,10 @@
 import React from "react";
-import { signUp } from "../api/userApiCalls";
 import Input from "../components/Input";
 import { withTranslation } from "react-i18next";
 import Button from "../components/Button";
 import { withApiProgress } from "../components/ApiProgress";
+import { connect } from "react-redux";
+import { signUpHandler } from "../redux/authActions";
 
 class UserSignUpPage extends React.Component {
   state = {
@@ -44,7 +45,8 @@ class UserSignUpPage extends React.Component {
         password: this.state.password,
       };
       try {
-        await signUp(user);
+        await this.props.signUp(user);
+        this.props.history.push("/");
       } catch (error) {
         if (error.response.data.validationErrors) {
           this.setState({
@@ -118,8 +120,22 @@ class UserSignUpPage extends React.Component {
 }
 
 const UserSignUpPageWithTranslation = withTranslation()(UserSignUpPage);
-const UserSignUpPageWithApiProgress = withApiProgress(
+const UserSignUpPageWithApiSignUpProgress = withApiProgress(
   UserSignUpPageWithTranslation,
   "/api/1.0/users"
 );
-export default UserSignUpPageWithApiProgress;
+const UserSignUpPageWithApiSignInProgress = withApiProgress(
+  UserSignUpPageWithApiSignUpProgress,
+  "/api/1.0/auth"
+);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signUp: (signUpParams) => dispatch(signUpHandler(signUpParams)),
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(UserSignUpPageWithApiSignInProgress);
