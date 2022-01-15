@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Input from "../components/Input";
 import { useTranslation } from "react-i18next";
 import Button from "../components/Button";
-import { withApiProgress } from "../components/ApiProgress";
+import { useApiProgress } from "../components/ApiProgress";
 import { useDispatch } from "react-redux";
 import { signUpHandler } from "../redux/authActions";
 
@@ -52,7 +52,8 @@ const UserSignUpPage = (props) => {
     }
   };
 
-  const { pendingApiCall } = props;
+  const pendingSignInApiCall = useApiProgress("/api/1.0/auth");
+  const pendingSignUpApiCall = useApiProgress("/api/1.0/users");
   const { t } = useTranslation();
 
   let passwordRepeatError;
@@ -107,7 +108,7 @@ const UserSignUpPage = (props) => {
               <div className="text-center">
                 <Button
                   text="Sign Up"
-                  pendingApiCall={pendingApiCall}
+                  pendingApiCall={pendingSignInApiCall || pendingSignUpApiCall}
                   onClick={onClickSignUp}
                 />
               </div>
@@ -119,13 +120,4 @@ const UserSignUpPage = (props) => {
   );
 };
 
-const UserSignUpPageWithApiSignUpProgress = withApiProgress(
-  UserSignUpPage,
-  "/api/1.0/users"
-);
-const UserSignUpPageWithApiSignInProgress = withApiProgress(
-  UserSignUpPageWithApiSignUpProgress,
-  "/api/1.0/auth"
-);
-
-export default UserSignUpPageWithApiSignInProgress;
+export default UserSignUpPage;

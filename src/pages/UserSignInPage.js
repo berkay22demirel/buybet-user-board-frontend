@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Input from "../components/Input";
 import { useTranslation } from "react-i18next";
 import Button from "../components/Button";
-import { withApiProgress } from "../components/ApiProgress";
+import { useApiProgress } from "../components/ApiProgress";
 import { useDispatch } from "react-redux";
 import { signInHandler } from "../redux/authActions";
 
@@ -32,7 +32,7 @@ const UserSignInPage = (props) => {
     }
   };
 
-  const { pendingApiCall } = props;
+  const pendingApiCall = useApiProgress("/api/1.0/auth");
   const { t } = useTranslation();
 
   return (
@@ -75,9 +75,4 @@ const UserSignInPage = (props) => {
   );
 };
 
-const UserSignInPageWithApiProgress = withApiProgress(
-  UserSignInPage,
-  "/api/1.0/auth"
-);
-
-export default UserSignInPageWithApiProgress;
+export default UserSignInPage;
