@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "../components/Input";
 import { withTranslation } from "react-i18next";
 import Button from "../components/Button";
@@ -6,118 +6,115 @@ import { withApiProgress } from "../components/ApiProgress";
 import { connect } from "react-redux";
 import { signUpHandler } from "../redux/authActions";
 
-class UserSignUpPage extends React.Component {
-  state = {
-    username: null,
-    email: null,
-    phone: null,
-    password: null,
-    passwordRepeat: null,
-    validationErrors: {},
-  };
+const UserSignUpPage = (props) => {
+  const [
+    form = {
+      username: null,
+      email: null,
+      phone: null,
+      password: null,
+      passwordRepeat: null,
+    },
+    setForm,
+  ] = useState();
+  const [validationErrors, setValidationErrors] = useState({});
 
-  onChange = (event) => {
+  const isSamePassword = () => form.password === form.passwordRepeat;
+
+  const onChange = (event) => {
     const { name, value } = event.target;
-    const validationErrors = { ...this.state.validationErrors };
-    validationErrors[name] = undefined;
-    this.setState({
-      [name]: value,
-      validationErrors,
-    });
+    setForm((previousForm) => ({ ...previousForm, [name]: value }));
+    setValidationErrors((previousValidationErrors) => ({
+      ...previousValidationErrors,
+      [name]: undefined,
+    }));
   };
 
-  onClickSignUp = async (event) => {
-    if (
-      this.state.password !== this.state.passwordRepeat ||
-      this.state.password == null ||
-      this.state.passwordRepeat == null
-    ) {
-      const { t } = this.props;
-      const validationErrors = { ...this.state.validationErrors };
-      validationErrors["passwordRepeat"] = t("password missmatch");
-      this.setState({ validationErrors });
-    } else {
+  const onClickSignUp = async (event) => {
+    if (isSamePassword()) {
       event.preventDefault();
       const user = {
-        username: this.state.username,
-        email: this.state.email,
-        phone: this.state.phone,
-        password: this.state.password,
+        username: form.username,
+        email: form.email,
+        phone: form.phone,
+        password: form.password,
       };
       try {
-        await this.props.signUp(user);
-        this.props.history.push("/");
+        await props.signUp(user);
+        props.history.push("/");
       } catch (error) {
         if (error.response.data.validationErrors) {
-          this.setState({
-            validationErrors: error.response.data.validationErrors,
-          });
+          setValidationErrors(error.response.data.validationErrors);
         }
       }
     }
   };
 
-  render() {
-    const { t, pendingApiCall } = this.props;
-    return (
-      <div className="container-md content-row p-4">
-        <div className="row">
-          <div className="col-sm-12 col-lg-6 offset-lg-3">
-            <div className="card h-100 p-4">
-              <h1 className="text-center">{t("Sign Up")}</h1>
-              <form className="m-3">
-                <Input
-                  id="usernameInput"
-                  name="username"
-                  label={t("Username")}
-                  error={this.state.validationErrors.username}
-                  onChange={this.onChange}
+  const { t, pendingApiCall } = props;
+
+  let passwordRepeatError;
+  if (!isSamePassword()) {
+    passwordRepeatError = t("password missmatch");
+  }
+
+  return (
+    <div className="container-md content-row p-4">
+      <div className="row">
+        <div className="col-sm-12 col-lg-6 offset-lg-3">
+          <div className="card h-100 p-4">
+            <h1 className="text-center">{t("Sign Up")}</h1>
+            <form className="m-3">
+              <Input
+                id="usernameInput"
+                name="username"
+                label={t("Username")}
+                error={validationErrors.username}
+                onChange={onChange}
+              />
+              <Input
+                id="emailInput"
+                name="email"
+                label={t("Email address")}
+                error={validationErrors.email}
+                onChange={onChange}
+              />
+              <Input
+                id="phoneInput"
+                name="phone"
+                label={t("Phone number")}
+                error={validationErrors.phone}
+                onChange={onChange}
+              />
+              <Input
+                id="passwordInput"
+                name="password"
+                label={t("Password")}
+                type="password"
+                error={validationErrors.password}
+                onChange={onChange}
+              />
+              <Input
+                id="passwordRepeatInput"
+                name="passwordRepeat"
+                label={t("Password repeat")}
+                type="password"
+                error={passwordRepeatError}
+                onChange={onChange}
+              />
+              <div className="text-center">
+                <Button
+                  text="Sign Up"
+                  pendingApiCall={pendingApiCall}
+                  onClick={onClickSignUp}
                 />
-                <Input
-                  id="emailInput"
-                  name="email"
-                  label={t("Email address")}
-                  error={this.state.validationErrors.email}
-                  onChange={this.onChange}
-                />
-                <Input
-                  id="phoneInput"
-                  name="phone"
-                  label={t("Phone number")}
-                  error={this.state.validationErrors.phone}
-                  onChange={this.onChange}
-                />
-                <Input
-                  id="passwordInput"
-                  name="password"
-                  label={t("Password")}
-                  type="password"
-                  error={this.state.validationErrors.password}
-                  onChange={this.onChange}
-                />
-                <Input
-                  id="passwordRepeatInput"
-                  name="passwordRepeat"
-                  label={t("Password repeat")}
-                  type="password"
-                  error={this.state.validationErrors.passwordRepeat}
-                  onChange={this.onChange}
-                />
-                <div className="text-center">
-                  <Button
-                    text="Sign Up"
-                    pendingApiCall={pendingApiCall}
-                    onClick={this.onClickSignUp}
-                  />
-                </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 const UserSignUpPageWithTranslation = withTranslation()(UserSignUpPage);
 const UserSignUpPageWithApiSignUpProgress = withApiProgress(
