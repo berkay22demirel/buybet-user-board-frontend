@@ -1,12 +1,13 @@
 import React from "react";
 import turkeyFlag from "../assets/turkey-flag.jpg";
 import ukFlag from "../assets/uk-flag.jpg";
-import { withTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { changeLanguage } from "../api/userApiCalls";
 
-const Footer = (props) => {
+const Footer = () => {
+  const { i18n } = useTranslation();
+
   const onChangeLanguage = (language) => {
-    const { i18n } = props;
     i18n.changeLanguage(language);
     changeLanguage(language);
   };
@@ -51,4 +52,4 @@ const Footer = (props) => {
   );
 };
 
-export default withTranslation()(Footer);
+export default Footer;

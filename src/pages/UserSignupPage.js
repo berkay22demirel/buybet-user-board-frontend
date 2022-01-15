@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Input from "../components/Input";
-import { withTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import Button from "../components/Button";
 import { withApiProgress } from "../components/ApiProgress";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { signUpHandler } from "../redux/authActions";
 
 const UserSignUpPage = (props) => {
@@ -18,6 +18,8 @@ const UserSignUpPage = (props) => {
     setForm,
   ] = useState();
   const [validationErrors, setValidationErrors] = useState({});
+
+  const dispatch = useDispatch();
 
   const isSamePassword = () => form.password === form.passwordRepeat;
 
@@ -40,7 +42,7 @@ const UserSignUpPage = (props) => {
         password: form.password,
       };
       try {
-        await props.signUp(user);
+        await dispatch(signUpHandler(user));
         props.history.push("/");
       } catch (error) {
         if (error.response.data.validationErrors) {
@@ -50,7 +52,8 @@ const UserSignUpPage = (props) => {
     }
   };
 
-  const { t, pendingApiCall } = props;
+  const { pendingApiCall } = props;
+  const { t } = useTranslation();
 
   let passwordRepeatError;
   if (!isSamePassword()) {
@@ -116,9 +119,8 @@ const UserSignUpPage = (props) => {
   );
 };
 
-const UserSignUpPageWithTranslation = withTranslation()(UserSignUpPage);
 const UserSignUpPageWithApiSignUpProgress = withApiProgress(
-  UserSignUpPageWithTranslation,
+  UserSignUpPage,
   "/api/1.0/users"
 );
 const UserSignUpPageWithApiSignInProgress = withApiProgress(
@@ -126,13 +128,4 @@ const UserSignUpPageWithApiSignInProgress = withApiProgress(
   "/api/1.0/auth"
 );
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    signUp: (signUpParams) => dispatch(signUpHandler(signUpParams)),
-  };
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(UserSignUpPageWithApiSignInProgress);
+export default UserSignUpPageWithApiSignInProgress;
