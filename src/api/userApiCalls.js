@@ -11,3 +11,7 @@ export const signUp = (user) => {
 export const changeLanguage = (language) => {
   axios.defaults.headers["accept-language"] = language;
 };
+
+export const getUser = (username) => {
+  return axios.get("/api/1.0/users/" + username);
+};
