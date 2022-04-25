@@ -10,7 +10,7 @@ const UserPage = () => {
   const [error, setError] = useState();
   const { username } = useParams();
   //const { username } = props.match.params;
-  const pendingApiCall = useApiProgress("/api/1.0/users/" + username);
+  const pendingApiCall = useApiProgress("get", "/api/1.0/users/" + username);
 
   useEffect(() => {
     const loadUser = async () => {

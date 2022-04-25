@@ -32,7 +32,7 @@ const UserSignInPage = (props) => {
     }
   };
 
-  const pendingApiCall = useApiProgress("/api/1.0/auth");
+  const pendingApiCall = useApiProgress("post", "/api/1.0/auth");
   const { t } = useTranslation();
 
   return (
@@ -63,6 +63,7 @@ const UserSignInPage = (props) => {
               <div className="text-center">
                 <Button
                   text="Sign In"
+                  className="btn btn-success w-100"
                   pendingApiCall={pendingApiCall}
                   onClick={onClickSignIn}
                 ></Button>

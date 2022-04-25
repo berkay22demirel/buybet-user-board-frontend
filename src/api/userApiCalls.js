@@ -15,3 +15,7 @@ export const changeLanguage = (language) => {
 export const getUser = (username) => {
   return axios.get("/api/1.0/users/" + username);
 };
+
+export const updateUser = (username, user) => {
+  return axios.put("/api/1.0/users/" + username, user);
+};

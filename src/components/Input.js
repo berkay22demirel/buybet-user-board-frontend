@@ -1,7 +1,7 @@
 import React from "react";
 
 const Input = (props) => {
-  const { id, name, label, type, error, onChange } = props;
+  const { id, name, label, type, error, onChange, defaultValue } = props;
   const className = error ? "form-control is-invalid" : "form-control";
   return (
     <div className="form-floating mb-3">
@@ -12,6 +12,7 @@ const Input = (props) => {
         type={type}
         placeholder="example"
         onChange={onChange}
+        defaultValue={defaultValue}
       />
       <label htmlFor={id}>{label}</label>
       <div className="invalid-feedback">{error}</div>

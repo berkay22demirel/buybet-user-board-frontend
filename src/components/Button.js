@@ -2,11 +2,11 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 
 const Button = (props) => {
-  const { text, pendingApiCall, onClick, t } = props;
+  const { text, className, pendingApiCall, onClick, t } = props;
   return (
     <button
       type="button"
-      className="btn btn-success w-100"
+      className={className}
       onClick={onClick}
       disabled={pendingApiCall}
     >

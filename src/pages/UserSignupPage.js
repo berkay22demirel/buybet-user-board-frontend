@@ -52,8 +52,8 @@ const UserSignUpPage = (props) => {
     }
   };
 
-  const pendingSignInApiCall = useApiProgress("/api/1.0/auth");
-  const pendingSignUpApiCall = useApiProgress("/api/1.0/users");
+  const pendingSignInApiCall = useApiProgress("post", "/api/1.0/auth");
+  const pendingSignUpApiCall = useApiProgress("post", "/api/1.0/users");
   const { t } = useTranslation();
 
   let passwordRepeatError;
@@ -108,6 +108,7 @@ const UserSignUpPage = (props) => {
               <div className="text-center">
                 <Button
                   text="Sign Up"
+                  className="btn btn-success w-100"
                   pendingApiCall={pendingSignInApiCall || pendingSignUpApiCall}
                   onClick={onClickSignUp}
                 />
