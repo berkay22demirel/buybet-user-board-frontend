@@ -14,6 +14,7 @@ const ProfileCard = (props) => {
   const [user, setUser] = useState({});
   const [newImage, setNewImage] = useState();
   const [newEmail, setNewEmail] = useState();
+  const [validationErrors, setValidationErrors] = useState({});
   const { loggedInUsername } = useSelector((store) => ({
     loggedInUsername: store.username,
   }));
@@ -37,6 +38,12 @@ const ProfileCard = (props) => {
       setNewEmail(email);
     }
   }, [inEditMode, email]);
+  useEffect(() => {
+    setValidationErrors((previousValidationErrors) => ({
+      ...previousValidationErrors,
+      email: undefined,
+    }));
+  }, [newEmail]);
 
   const onClickSave = async () => {
     let image;
@@ -52,7 +59,9 @@ const ProfileCard = (props) => {
       const response = await updateUser(username, updatedUser);
       setInEditMode(false);
       setUser(response.data.data);
-    } catch (error) {}
+    } catch (error) {
+      setValidationErrors(error.response.data.validationErrors);
+    }
   };
 
   const onChangeImage = (event) => {
@@ -157,6 +166,7 @@ const ProfileCard = (props) => {
                   label={t("Email")}
                   defaultValue={email}
                   onChange={(event) => setNewEmail(event.target.value)}
+                  error={validationErrors.email}
                 />
                 {error && <div className="alert alert-danger">{error}</div>}
                 <div className="d-flex justify-content-evenly">
