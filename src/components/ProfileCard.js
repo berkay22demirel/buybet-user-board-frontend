@@ -44,6 +44,12 @@ const ProfileCard = (props) => {
       email: undefined,
     }));
   }, [newEmail]);
+  useEffect(() => {
+    setValidationErrors((previousValidationErrors) => ({
+      ...previousValidationErrors,
+      image: undefined,
+    }));
+  }, [newImage]);
 
   const onClickSave = async () => {
     let image;
@@ -113,6 +119,11 @@ const ProfileCard = (props) => {
                 style={{ display: "none" }}
                 onChange={onChangeImage}
               />
+              {validationErrors.image && (
+                <div class="alert alert-danger" role="alert">
+                  {validationErrors.image}
+                </div>
+              )}
             </div>
           )}
         </div>
