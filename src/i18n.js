@@ -14,6 +14,7 @@ i18n.use(initReactI18next).init({
         "Password repeat": "Password repeat",
         "password missmatch": "password missmatch",
         Logout: "Logout",
+        "My Profile": "My Profile",
       },
     },
     tr: {
@@ -27,6 +28,7 @@ i18n.use(initReactI18next).init({
         "Password repeat": "Parolayı tekrarla",
         "password missmatch": "parolalar uyuşmuyor",
         Logout: "Çıkış",
+        "My Profile": "Profilim",
       },
     },
   },

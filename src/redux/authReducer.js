@@ -4,6 +4,7 @@ const defaultAuthState = {
   isLoggedIn: false,
   username: undefined,
   password: undefined,
+  image: undefined,
 };
 
 const authReducer = (state = { ...defaultAuthState }, action) => {
@@ -13,6 +14,11 @@ const authReducer = (state = { ...defaultAuthState }, action) => {
     return {
       ...action.payload,
       isLoggedIn: true,
+    };
+  } else if (action.type === REDUX_ACTION.UPDATE_SUCCESS) {
+    return {
+      ...state,
+      ...action.payload,
     };
   }
   return state;

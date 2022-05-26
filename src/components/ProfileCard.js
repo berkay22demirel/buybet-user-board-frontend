@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import ProfileImage from "./ProfileImage";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { useApiProgress } from "../components/ApiProgress";
 import { updateUser } from "../api/userApiCalls";
+import { updateSuccess } from "../redux/authActions";
 
 const ProfileCard = (props) => {
   const [inEditMode, setInEditMode] = useState(false);
@@ -15,6 +16,7 @@ const ProfileCard = (props) => {
   const [newImage, setNewImage] = useState();
   const [newEmail, setNewEmail] = useState();
   const [validationErrors, setValidationErrors] = useState({});
+  const dispatch = useDispatch();
   const { loggedInUsername } = useSelector((store) => ({
     loggedInUsername: store.username,
   }));
@@ -65,6 +67,9 @@ const ProfileCard = (props) => {
       const response = await updateUser(username, updatedUser);
       setInEditMode(false);
       setUser(response.data.data);
+      dispatch(
+        updateSuccess(response.data.data.username, response.data.data.image)
+      );
     } catch (error) {
       setValidationErrors(error.response.data.validationErrors);
     }

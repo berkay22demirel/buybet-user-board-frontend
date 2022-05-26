@@ -9,7 +9,7 @@ const ProfileImage = (props) => {
   }
   return (
     <img
-      className="rounded-circle shadow"
+      className="rounded-circle shadow m-auto"
       src={uploadedimage || imageSource}
       alt={{ username } + " profile"}
       {...props}

@@ -14,11 +14,24 @@ export const loginSuccess = (authState) => {
   };
 };
 
+export const updateSuccess = (username, image) => {
+  return {
+    type: REDUX_ACTION.UPDATE_SUCCESS,
+    payload: {
+      username,
+      image,
+    },
+  };
+};
+
 export const signInHandler = (loginParams) => {
   return async (dispatch) => {
     const response = await signIn(loginParams);
+    console.log(response);
+    console.log(loginParams);
     const authState = {
-      ...loginParams,
+      username: response.data.data.username,
+      image: response.data.data.image,
     };
     dispatch(loginSuccess(authState));
     return response;
