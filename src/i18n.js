@@ -15,6 +15,7 @@ i18n.use(initReactI18next).init({
         "password missmatch": "password missmatch",
         Logout: "Logout",
         "My Profile": "My Profile",
+        Send: "Send",
       },
     },
     tr: {
@@ -29,6 +30,7 @@ i18n.use(initReactI18next).init({
         "password missmatch": "parolalar uyuşmuyor",
         Logout: "Çıkış",
         "My Profile": "Profilim",
+        Send: "Gönder",
       },
     },
   },

@@ -2,13 +2,13 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 
 const Button = (props) => {
-  const { text, className, pendingApiCall, onClick, t } = props;
+  const { text, className, pendingApiCall, onClick, t, disabled } = props;
   return (
     <button
       type="button"
       className={className}
       onClick={onClick}
-      disabled={pendingApiCall}
+      disabled={disabled || pendingApiCall}
     >
       {pendingApiCall && (
         <span className="spinner-border spinner-border-sm"></span>

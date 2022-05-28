@@ -1,13 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
+import PostCreate from "../components/PostCreate";
 
-class HomePage extends Component {
-  render() {
-    return (
-      <div className="container">
-        <h1>Home Page</h1>
-      </div>
-    );
-  }
-}
+const HomePage = () => {
+  const { isLoggedIn } = useSelector((store) => ({
+    isLoggedIn: store.isLoggedIn,
+  }));
+  return (
+    <div className="container">
+      <div className="row">{isLoggedIn && <PostCreate />}</div>
+    </div>
+  );
+};
 
 export default HomePage;
