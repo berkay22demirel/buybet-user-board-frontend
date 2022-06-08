@@ -16,6 +16,7 @@ i18n.use(initReactI18next).init({
         Logout: "Logout",
         "My Profile": "My Profile",
         Send: "Send",
+        "Load Old Post": "Load Old Post",
       },
     },
     tr: {
@@ -31,6 +32,7 @@ i18n.use(initReactI18next).init({
         Logout: "Çıkış",
         "My Profile": "Profilim",
         Send: "Gönder",
+        "Load Old Post": "Geçmiş Gönderileri Getir",
       },
     },
   },

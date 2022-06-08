@@ -23,3 +23,7 @@ export const updateUser = (username, user) => {
 export const createPost = (post) => {
   return axios.post("/api/1.0/posts", post);
 };
+
+export const getPosts = (page = 0) => {
+  return axios.get("/api/1.0/posts?page=" + page);
+};
