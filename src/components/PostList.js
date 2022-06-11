@@ -4,11 +4,16 @@ import { getPosts } from "../api/userApiCalls";
 import { useApiProgress } from "./ApiProgress";
 import Post from "./Post";
 import Button from "../components/Button";
+import { useParams } from "react-router-dom";
 
 const PostList = () => {
   const [posts, setPosts] = useState({ content: [], last: true, number: 0 });
   const [t] = useTranslation();
-  const pendingApiCall = useApiProgress("get", "/api/1.0/posts");
+  const { username } = useParams();
+  const getPostsPath = username
+    ? "/api/1.0/users/" + username + "/posts?page="
+    : "/api/1.0/posts?page=";
+  const pendingApiCall = useApiProgress("get", getPostsPath, false);
 
   useEffect(() => {
     loadPosts();
@@ -16,7 +21,7 @@ const PostList = () => {
 
   const loadPosts = async (page) => {
     try {
-      const response = await getPosts(page);
+      const response = await getPosts(username, page);
       setPosts((previousPosts) => ({
         ...response.data.data,
         content: [...previousPosts.content, ...response.data.data.content],
