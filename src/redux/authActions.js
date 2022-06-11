@@ -30,6 +30,7 @@ export const signInHandler = (loginParams) => {
     const authState = {
       username: response.data.data.username,
       image: response.data.data.image,
+      password: loginParams.password,
     };
     dispatch(loginSuccess(authState));
     return response;

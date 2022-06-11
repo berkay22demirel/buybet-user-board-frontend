@@ -1,5 +1,14 @@
 import axios from "axios";
 
+export const setAuthorizationHeader = ({ username, password, isLoggedIn }) => {
+  if (isLoggedIn) {
+    const authorizationHeaderValue = `Basic ${btoa(username + ":" + password)}`;
+    axios.defaults.headers["Authorization"] = authorizationHeaderValue;
+  } else {
+    delete axios.defaults.headers["Authorization"];
+  }
+};
+
 export const signIn = (login) => {
   return axios.post("/api/1.0/auth", {}, { auth: login });
 };
@@ -24,6 +33,9 @@ export const createPost = (post) => {
   return axios.post("/api/1.0/posts", post);
 };
 
-export const getPosts = (page = 0) => {
-  return axios.get("/api/1.0/posts?page=" + page);
+export const getPosts = (username, page = 0) => {
+  const path = username
+    ? "/api/1.0/users/" + username + "/posts?page="
+    : "/api/1.0/posts?page=";
+  return axios.get(path + page);
 };

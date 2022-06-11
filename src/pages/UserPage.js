@@ -4,13 +4,18 @@ import { useApiProgress } from "../components/ApiProgress";
 import { useParams } from "react-router";
 import { getUser } from "../api/userApiCalls";
 import ProfileCard from "../components/ProfileCard";
+import PostList from "../components/PostList";
 
 const UserPage = () => {
   const [user, setUser] = useState({});
   const [error, setError] = useState();
   const { username } = useParams();
   //const { username } = props.match.params;
-  const pendingApiCall = useApiProgress("get", "/api/1.0/users/" + username);
+  const pendingApiCall = useApiProgress(
+    "get",
+    "/api/1.0/users/" + username,
+    true
+  );
 
   useEffect(() => {
     const loadUser = async () => {
@@ -24,10 +29,6 @@ const UserPage = () => {
     };
     loadUser();
   }, [username]);
-
-  if (pendingApiCall) {
-    return <Spinner></Spinner>;
-  }
 
   if (error) {
     return (
@@ -44,9 +45,14 @@ const UserPage = () => {
     );
   }
 
+  if (pendingApiCall || username !== user.username) {
+    return <Spinner></Spinner>;
+  }
+
   return (
     <div className="container">
       <ProfileCard user={user}></ProfileCard>
+      <PostList></PostList>
     </div>
   );
 };
