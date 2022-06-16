@@ -18,6 +18,7 @@ i18n.use(initReactI18next).init({
         "My Profile": "My Profile",
         Send: "Send",
         "Load Old Post": "Load Old Post",
+        "Load New Post": "Load New Post",
       },
     },
     tr: {
@@ -34,6 +35,7 @@ i18n.use(initReactI18next).init({
         "My Profile": "Profilim",
         Send: "Gönder",
         "Load Old Post": "Geçmiş Gönderileri Getir",
+        "Load New Post": "Yeni Gönderileri Getir",
       },
     },
   },

@@ -40,9 +40,16 @@ export const getPosts = (username, page = 0) => {
   return axios.get(path + page);
 };
 
-export const getOldPost = (lastId, username) => {
+export const getOldPosts = (lastId, username) => {
   const path = username
     ? "/api/1.0/users/" + username + "/posts/"
     : "/api/1.0/posts/";
   return axios.get(path + lastId);
+};
+
+export const getNewPosts = (firstId, username) => {
+  const path = username
+    ? "/api/1.0/users/" + username + "/posts/" + firstId + "?direction=after"
+    : "/api/1.0/posts/" + firstId + "?direction=after";
+  return axios.get(path);
 };
