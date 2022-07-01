@@ -53,3 +53,7 @@ export const getNewPosts = (firstId, username) => {
     : "/api/1.0/posts/" + firstId + "?direction=after";
   return axios.get(path);
 };
+
+export const deletePost = (id) => {
+  return axios.delete("api/1.0/posts/" + id);
+};

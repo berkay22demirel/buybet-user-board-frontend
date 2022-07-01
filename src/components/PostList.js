@@ -70,6 +70,19 @@ const PostList = () => {
     } catch (error) {}
   };
 
+  const onDeletePost = (id) => {
+    console.log("sdfas");
+    setPosts((previousPosts) => ({
+      ...previousPosts,
+      content: previousPosts.content.filter((post) => {
+        if (id === post.id) {
+          return false;
+        }
+        return true;
+      }),
+    }));
+  };
+
   return (
     <div className="p-0">
       <Button
@@ -80,7 +93,9 @@ const PostList = () => {
         text={t("Load New Post")}
       />
       {posts.content.map((post) => {
-        return <Post key={post.id} post={post}></Post>;
+        return (
+          <Post key={post.id} post={post} onDeletePost={onDeletePost}></Post>
+        );
       })}
       {!posts.last && (
         <Button

@@ -19,6 +19,10 @@ i18n.use(initReactI18next).init({
         Send: "Send",
         "Load Old Post": "Load Old Post",
         "Load New Post": "Load New Post",
+        Delete: "Delete",
+        "Are you sure to delete post?": "Are you sure to delete post?",
+        "Delete Post": "Delete Post",
+        Cancel: "Cancel",
       },
     },
     tr: {
@@ -36,6 +40,11 @@ i18n.use(initReactI18next).init({
         Send: "Gönder",
         "Load Old Post": "Geçmiş Gönderileri Getir",
         "Load New Post": "Yeni Gönderileri Getir",
+        Delete: "Sil",
+        "Are you sure to delete post?":
+          "Post'u silmek istediğinizden emin misiniz?",
+        "Delete Post": "Post'u Sil",
+        Cancel: "İptal Et",
       },
     },
   },
