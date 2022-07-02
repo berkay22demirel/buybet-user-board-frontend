@@ -23,6 +23,10 @@ i18n.use(initReactI18next).init({
         "Are you sure to delete post?": "Are you sure to delete post?",
         "Delete Post": "Delete Post",
         Cancel: "Cancel",
+        "Delete My Account": "Delete My Account",
+        "Edit Profile": "Edit Profile",
+        "Are you sure to delete your account?":
+          "Are you sure to delete your account?",
       },
     },
     tr: {
@@ -45,6 +49,10 @@ i18n.use(initReactI18next).init({
           "Post'u silmek istediğinizden emin misiniz?",
         "Delete Post": "Post'u Sil",
         Cancel: "İptal Et",
+        "Delete My Account": "Hesabımı Sil",
+        "Edit Profile": "Profili Düzenle",
+        "Are you sure to delete your account?":
+          "Hesabınızı silmek istediğinizden emin misiniz?",
       },
     },
   },
