@@ -3,8 +3,8 @@ import * as REDUX_ACTION from "./reduxConstants";
 const defaultAuthState = {
   isLoggedIn: false,
   username: undefined,
-  password: undefined,
   image: undefined,
+  token: undefined,
 };
 
 const authReducer = (state = { ...defaultAuthState }, action) => {

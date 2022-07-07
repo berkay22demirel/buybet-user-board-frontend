@@ -12,8 +12,8 @@ const getStateFromStorage = () => {
   let stateInLocalStorage = {
     isLoggedIn: false,
     username: undefined,
-    password: undefined,
     image: undefined,
+    token: undefined,
   };
   if (buybetAuth) {
     return buybetAuth;

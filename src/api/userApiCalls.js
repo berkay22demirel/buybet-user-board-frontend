@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const setAuthorizationHeader = ({ username, password, isLoggedIn }) => {
+export const setAuthorizationHeader = ({ token, isLoggedIn }) => {
   if (isLoggedIn) {
-    const authorizationHeaderValue = `Basic ${btoa(username + ":" + password)}`;
+    const authorizationHeaderValue = `Bearer ${token}`;
     axios.defaults.headers["Authorization"] = authorizationHeaderValue;
   } else {
     delete axios.defaults.headers["Authorization"];
@@ -10,7 +10,7 @@ export const setAuthorizationHeader = ({ username, password, isLoggedIn }) => {
 };
 
 export const signIn = (login) => {
-  return axios.post("/api/1.0/auth", {}, { auth: login });
+  return axios.post("/api/1.0/auth", login);
 };
 
 export const signUp = (user) => {

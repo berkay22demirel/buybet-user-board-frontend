@@ -28,9 +28,9 @@ export const signInHandler = (loginParams) => {
   return async (dispatch) => {
     const response = await signIn(loginParams);
     const authState = {
-      username: response.data.data.username,
-      image: response.data.data.image,
-      password: loginParams.password,
+      username: response.data.data.user.username,
+      image: response.data.data.user.image,
+      token: response.data.data.token,
     };
     dispatch(loginSuccess(authState));
     return response;
